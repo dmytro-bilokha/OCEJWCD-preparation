@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 public class HelloServletTest {
 
     @Test
-    public void shouldWriteHelloWorld() throws IOException {
+    public void shouldWriteHelloWorld() throws Exception {
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
         StringWriter mockStrWriter = new StringWriter();
@@ -25,8 +25,6 @@ public class HelloServletTest {
         String servletOutput;
         try {
             new HelloServlet().doGet(req, resp);
-        } catch (Exception e) {
-            fail(String.format("Call to HelloServlet.doGet() method has failed unexpectedly%n%s", e.getStackTrace()));
         } finally {
             servletOutput = mockStrWriter.toString();
             mockPrnWriter.close();
