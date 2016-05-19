@@ -2,6 +2,8 @@ package bilokhado.showconfig;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,10 +41,34 @@ public class ShowConfigServlet extends HttpServlet {
         Map<String, String> configData = new HashMap<>();
         PrintWriter pw = resp.getWriter();
         pw.println(PAGE_HEAD);
+        //Retrieve config from GenericServlet methods
         configData.put("getServletName()", getServletName());
-        Enumeration<String> initParameterNames = getInitParameterNames();
-        putConfigEnumerationToMap("getInitParameter", this::getInitParameter, initParameterNames, configData);
-        printConfigHtmlTable("Data from GenericServlet methods", configData, pw);
+        Enumeration<String> parametersEnumeration = getInitParameterNames();
+        putConfigEnumerationToMap("getInitParameter", this::getInitParameter, parametersEnumeration, configData);
+        printConfigHtmlTable("Data from the GenericServlet methods", configData, pw);
+        //Read data from the ServletConfig object
+        configData = new HashMap<>();
+        ServletConfig servletConfig = getServletConfig();
+        configData.put("getServletName()", servletConfig.getServletName());
+        parametersEnumeration = servletConfig.getInitParameterNames();
+        putConfigEnumerationToMap("getInitParameter", servletConfig::getInitParameter, parametersEnumeration, configData);
+        printConfigHtmlTable("Data from the ServletConfig methods", configData, pw);
+        //Read data from the ServletContext object
+        configData = new HashMap<>();
+        ServletContext servletContext = getServletContext();
+        configData.put("getContextPath()", servletContext.getContextPath());
+        configData.put("getServerInfo()", servletContext.getServerInfo());
+        configData.put("getServletContextName()", servletContext.getServletContextName());
+        configData.put("Effective version", servletContext.getEffectiveMajorVersion() + "." +
+                servletContext.getEffectiveMinorVersion());
+        configData.put("Version", servletContext.getMajorVersion() + "." +
+                servletContext.getMinorVersion());
+        parametersEnumeration = servletContext.getAttributeNames();
+        putConfigEnumerationToMap("getAttribute", x -> servletContext.getAttribute(x).toString(),
+                parametersEnumeration, configData);
+        parametersEnumeration = servletContext.getInitParameterNames();
+        putConfigEnumerationToMap("getInitParameter", servletContext::getInitParameter, parametersEnumeration, configData);
+        printConfigHtmlTable("Data from the ServletContext methods", configData, pw);
         pw.println(PAGE_TAIL);
     }
 
@@ -60,7 +86,8 @@ public class ShowConfigServlet extends HttpServlet {
                                            Enumeration<String> configEnumeration, Map<String, String> configData) {
         while(configEnumeration.hasMoreElements()) {
             String configElement = configEnumeration.nextElement();
-            configData.put(methodName + "(\"" + configElement + "\")", operator.apply(configElement));
+            configData.put(methodName + "(\"" + configElement + "\")",
+                    configElement == null ? "null" : operator.apply(configElement));
         }
     }
 
