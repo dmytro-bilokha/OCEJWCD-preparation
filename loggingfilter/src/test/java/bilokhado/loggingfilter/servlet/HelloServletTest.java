@@ -1,14 +1,12 @@
-package bilokhado.helloservlet;
+package bilokhado.loggingfilter.servlet;
 
 import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;

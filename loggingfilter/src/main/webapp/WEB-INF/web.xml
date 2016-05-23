@@ -4,16 +4,26 @@
 
 <web-app>
 
-  <display-name>Hello World Web Application</display-name>
+  <display-name>Logging Filter</display-name>
 
     <servlet>
         <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>bilokhado.helloservlet.HelloServlet</servlet-class>
+        <servlet-class>bilokhado.loggingfilter.servlet.HelloServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>HelloServlet</servlet-name>
-        <url-pattern>/HelloWorld</url-pattern>
+        <url-pattern>/servlet</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>LoggingFilter</filter-name>
+        <filter-class>bilokhado.loggingfilter.filter.LoggingFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LoggingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 </web-app>

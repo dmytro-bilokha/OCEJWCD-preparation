@@ -1,4 +1,4 @@
-package bilokhado.helloservlet;
+package bilokhado.loggingfilter.servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
