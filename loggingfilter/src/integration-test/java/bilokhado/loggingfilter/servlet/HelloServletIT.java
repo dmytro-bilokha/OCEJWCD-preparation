@@ -51,7 +51,7 @@ public class HelloServletIT {
 
     @Test
     public void shouldFail() {
-        assertEquals("aaa", "aaa");
+        assertEquals("aaa", "");
     }
 
 }
