@@ -15,30 +15,32 @@ repositories {
 }
 
 configurations {
-  itestCompile.extendsFrom testCompile
-  itestRuntime.extendsFrom testRuntime
+    itestCompile.extendsFrom testCompile
+    itestRuntime.extendsFrom testRuntime
 }
 
 dependencies {
-    compile 'ch.qos.logback:logback-classic:1.1.7' 
-    providedCompile 'javax.servlet:javax.servlet-api:3.1.0' 
-    testCompile 'junit:junit:4.12' 
-    testCompile 'org.mockito:mockito-core:1.10.19' 
+    compile 'ch.qos.logback:logback-classic:1.1.7'
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
     itestCompile 'org.mortbay.jetty:jetty-servlet-tester:6.1.26'
 }
 
 sourceSets {
-  itest {
-    compileClasspath += main.output + test.output
-    runtimeClasspath += main.output + test.output
-    java.srcDir file('src/integration-test/java')
-  }
-  test {
-    resources.srcDir file('src/integration-test/resources')
-  }
+    itest {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        java.srcDir file('src/integration-test/java')
+    }
+    test {
+        resources.srcDir file('src/integration-test/resources')
+    }
 }
 
 task itest(type: Test) {
-  testClassesDir = sourceSets.itest.output.classesDir
-  classpath = sourceSets.itest.runtimeClasspath
+    description = 'Runs the integration tests'
+    group = 'verification'
+    testClassesDir = sourceSets.itest.output.classesDir
+    classpath = sourceSets.itest.runtimeClasspath
 }
