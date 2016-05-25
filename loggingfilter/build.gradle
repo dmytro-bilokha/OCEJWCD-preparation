@@ -12,6 +12,19 @@ war {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.bmuschko:gradle-cargo-plugin:2.2.2"
+    }
+}
+
+apply plugin: "com.bmuschko.cargo"
+
 repositories {
     mavenCentral()
 }
@@ -45,4 +58,18 @@ task itest(type: Test) {
     group = 'verification'
     testClassesDir = sourceSets.itest.output.classesDir
     classpath = sourceSets.itest.runtimeClasspath
+}
+
+cargo {
+    containerId = 'tomcat8x'
+    deployable {
+        file = file("${war.archivePath}")
+        context = "${war.baseName}"
+    }
+    remote {
+        hostname = "localhost"
+        username = "tomcat"
+        password = "tomcat"
+        timeout = 6000
+    }
 }
