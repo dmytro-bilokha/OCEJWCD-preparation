@@ -49,9 +49,4 @@ public class HelloServletIT {
         assertThat(servletOutput, containsString("Servlet"));
     }
 
-    @Test
-    public void shouldFail() {
-        assertEquals("aaa", "");
-    }
-
 }
