@@ -53,6 +53,14 @@ sourceSets {
     }
 }
 
+import org.apache.tools.ant.filters.*
+
+processResources {
+    filter ReplaceTokens, tokens: [
+            "test.log.file": "${test.workingDir.toString()}/${war.baseName}"
+    ]
+}
+
 task itest(type: Test) {
     description = 'Runs the integration tests'
     group = 'verification'

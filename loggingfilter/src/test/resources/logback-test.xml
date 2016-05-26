@@ -7,8 +7,15 @@
         </layout>
     </appender>
 
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>@test.log.file@</file>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{dd.MM.yy HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
     <root level="debug">
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
     </root>
 
 </configuration>
