@@ -44,21 +44,13 @@ dependencies {
 
 sourceSets {
     itest {
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-        java.srcDir file('src/integration-test/java')
-    }
-    test {
+        java {
+            compileClasspath += main.output //+ test.output
+            runtimeClasspath += main.output // + test.output
+            srcDir file('src/integration-test/java')
+        }
         resources.srcDir file('src/integration-test/resources')
     }
-}
-
-import org.apache.tools.ant.filters.*
-
-processResources {
-    filter ReplaceTokens, tokens: [
-            "test.log.file": "${test.workingDir.toString()}/${war.baseName}"
-    ]
 }
 
 task itest(type: Test) {
@@ -66,6 +58,10 @@ task itest(type: Test) {
     group = 'verification'
     testClassesDir = sourceSets.itest.output.classesDir
     classpath = sourceSets.itest.runtimeClasspath
+}
+
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
 }
 
 cargo {
