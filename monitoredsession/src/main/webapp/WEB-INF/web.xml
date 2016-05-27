@@ -1,0 +1,45 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+
+  <display-name>Show Session App</display-name>
+
+    <servlet>
+        <servlet-name>ShowSessionServlet</servlet-name>
+        <servlet-class>bilokhado.monitoredsession.servlet.ShowSessionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShowSessionServlet</servlet-name>
+        <url-pattern>/servlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>metrics</servlet-name>
+        <servlet-class>com.codahale.metrics.servlets.AdminServlet</servlet-class>
+        <init-param>
+            <param-name>show-jvm-metrics</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>metrics</servlet-name>
+        <url-pattern>/metrics/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>instrumentedFilter</filter-name>
+        <filter-class>com.codahale.metrics.servlet.InstrumentedFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>instrumentedFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>bilokhado.monitoredsession.metrics.MetricRegistersInitializer</listener-class>
+    </listener>
+
+</web-app>
