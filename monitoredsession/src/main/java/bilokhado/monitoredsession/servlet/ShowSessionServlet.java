@@ -8,10 +8,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Instant;
@@ -83,6 +80,15 @@ public class ShowSessionServlet extends HttpServlet {
             String name = attributeNames.nextElement();
             Object value = session.getAttribute(name);
             printRow(pw, "Attribute: " + name, String.valueOf(value));
+        }
+        Cookie[] cookies = req.getCookies();
+        for (Cookie cookie : cookies) {
+            String name = cookie.getName();
+            printRow(pw, "Cookie name-value: " + name, cookie.getValue());
+            printRow(pw, "Cookie name-comment: " + name, cookie.getComment());
+            printRow(pw, "Cookie name-domain: " + name, cookie.getDomain());
+            printRow(pw, "Cookie name-path: " + name, cookie.getPath());
+            printRow(pw, "Cookie name-maxAge: " + name, Integer.toString(cookie.getMaxAge()));
         }
         if (session.getAttribute("Counter") == null) {
             session.setAttribute("Counter", new AtomicInteger());
