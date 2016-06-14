@@ -15,6 +15,7 @@
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
         <jetty-servlet-tester.version>6.1.26</jetty-servlet-tester.version>
+        <jstl.version>1.2</jstl.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -51,6 +52,12 @@
             <version>${jetty-servlet-tester.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -64,7 +71,7 @@
                 <artifactId>tomcat-maven-plugin</artifactId>
                 <version>1.1</version>
                 <configuration>
-                    <url>http://localhost:8081/manager/text</url>
+                    <url>http://localhost:8080/manager/text</url>
                     <server>tomcat-local</server>
                     <path>/helloservlet</path>
                     <update>true</update>
