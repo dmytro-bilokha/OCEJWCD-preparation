@@ -5,6 +5,7 @@
 <p>Use  this <a href="<c:url value="/ShowConfigServlet" />">link</a> to see servlet config</p>
 <c:forEach var="iparam" items="${pageContext.servletContext.initParameterNames}">
 <p><c:out value="${iparam}"/> <c:out value="${pageContext.servletContext.getInitParameter(iparam)}"/></p>
+<p><c:out value="${iparam}"/> <c:out value="${initParam[iparam]}"/></p>
 </c:forEach>
 </body>
 </html>
